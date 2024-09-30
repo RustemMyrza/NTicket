@@ -3,22 +3,20 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Http\Middleware\LanguageMiddleware;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
+    public function register()
     {
-        //
+        // Регистрация singleton для middleware
+        $this->app->singleton(LanguageMiddleware::class);
     }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
+    public function boot()
     {
-        //
+        // Добавление middleware в группу 'web'
+        $router = $this->app['router'];
+        $router->pushMiddlewareToGroup('web', LanguageMiddleware::class);
     }
 }

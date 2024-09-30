@@ -18,8 +18,13 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
+        'middle_name',
+        'birth_date',
         'email',
         'password',
+        'id_card',
+        'bank_card',
     ];
 
     /**
@@ -43,5 +48,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getIdCard()
+    {
+        return $this->hasOne(IdCard::class, 'id', 'id_card');
+    }
+
+    public function getBankCard()
+    {
+        return $this->hasOne(BankCard::class, 'id', 'bank_card');
+    }
+
+    public function getTickets()
+    {
+        return $this->hasMany(Ticket::class, 'passenger', 'id');
     }
 }
